@@ -2,6 +2,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QLabel, QHBoxLayout, QSlider, QGroupBox
 from PyQt5.QtCore import Qt
 from nut import Config
+import os
 
 def _init_slider(slider, min_value, max_value, value):
 	slider.setMinimum(min_value)
@@ -13,7 +14,10 @@ class Threads(QSlider):
 	def __init__(self, parent):
 		super().__init__(Qt.Horizontal)
 		self.parent = parent
-		_init_slider(self, 1, 8, Config.threads)
+
+		num_threads = os.cpu_count()
+
+		_init_slider(self, 1, num_threads, Config.threads)
 
 	def save(self):
 		Config.threads = self.value()
